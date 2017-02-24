@@ -19,7 +19,7 @@
 
 # configuration parameters that need to be different from the "reasonable defaults"
 - name: Configure application
-  replace: dest={{ easy_modules_installation_base_path }}/easy_add_new_license/cfg/application.properties
+  replace: dest={{ easy_modules_installation_base_path }}/easy-add-new-license/cfg/application.properties
            regexp="^{{ item.key }}.*$"
            replace="{{ item.key }}={{ item.value }}"
   with_items:
