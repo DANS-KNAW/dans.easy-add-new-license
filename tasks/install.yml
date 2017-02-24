@@ -1,0 +1,28 @@
+# Hack fix to force ansible to evaluate the variable, as it may not be in scope in easy-includes
+- local_action: command echo {{ easy_add_new_license_version }}
+  become: no
+  register: mod_version
+
+- include_role:
+    name: dans.easy-includes
+    tasks_from: install_easy_module
+  vars:
+    easy_module_name: "easy-add-new-license"
+    easy_module_version: "{{ mod_version.stdout }}"
+
+- include_role:
+    name: dans.easy-includes
+    tasks_from: install_cmd
+  vars:
+    easy_module_name: "easy-add-new-license"
+    easy_module_version: "{{ mod_version.stdout }}"
+
+# configuration parameters that need to be different from the "reasonable defaults"
+- name: Configure application
+  replace: dest={{ easy_modules_installation_base_path }}/easy_add_new_license/cfg/application.properties
+           regexp="^{{ item.key }}.*$"
+           replace="{{ item.key }}={{ item.value }}"
+  with_items:
+    - { key: 'fedora.password',  value: '{{ easy_add_new_license_fedora_password }}' }
+    - { key: 'validation.user-directory.password',  value: '{{ easy_add_new_license_ldapadmin_password }}' }
+    - { key: 'license.resources',  value: '{{ easy_add_new_license_resources }}' }

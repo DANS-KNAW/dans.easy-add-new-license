@@ -1,0 +1,5 @@
+easy_add_new_license_version: "1.x-SNAPSHOT"
+# Add defaults for all variables that are used in install.yml
+easy_add_new_license_resources: "/opt/easy-license-resources"
+easy_add_new_license_ldapadmin_password: "ldapadmin"
+easy_add_new_license_fedora_password: "fedoraAdmin"
